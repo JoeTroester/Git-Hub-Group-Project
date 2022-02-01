@@ -1,6 +1,6 @@
 const form = new FormData();
 form.append("image", "./Bruh.PNG");
-
+//google maps key AIzaSyCrVkGF_JNNcIPRuXypsQmB16LCVt-UBnA
 fetch("https://ronreiter-meme-generator.p.rapidapi.com/images", {
 	"method": "POST",
 	"headers": {
