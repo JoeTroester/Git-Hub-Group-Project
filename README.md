@@ -4,8 +4,8 @@ Project Description:  Would allow user to search for a movie title and based on 
 
 API’s: IMBd API, Watchmode API
 
-Repository: https://github.com/JoeTroester/Git-Hub-Group-Project
+Repository: https://github.com/JoeTroester/Movie_Watchlist
 
-User Stories/Kanban Board: https://github.com/JoeTroester/Git-Hub-Group-Project/projects/1
+User Stories/Kanban Board: https://github.com/JoeTroester/Movie_Watchlist/projects/1
 
 Wireframe: https://wireframe.cc/zGAxlI
