@@ -3,10 +3,17 @@ var searchData
 function SearchStreamingAvailibility(ID) {
     
 }
+var PreviousSearches = localStorage.getItem("OldSearches")
+
+function Search(MovieName) {
+    event.preventDefault();
+    console.log(MovieName)
+}
 
 
+document.getElementById("SearchForm").addEventListener("submit", Search);
 
-fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=Breaking%20Bad", {
+/*fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=Breaking%20Bad", {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": "watchmode.p.rapidapi.com",
@@ -14,10 +21,13 @@ fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=B
 	}
 })
 .then(response => {
-    searchData=response
-	console.log(response);
+    searchData=response.body
+    console.log(response.json())
+	console.log(searchData.text());
+
 
 })
 .catch(err => {
 	console.error(err);
 });
+*/
