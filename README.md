@@ -4,6 +4,7 @@ Project Description:  Would allow user to search for a movie title and based on 
 
 API’s: IMBd API, Watchmode API
 Wathcmode documentation:https://api.watchmode.com/
+Watchmode key: Y4ePsSL4NWvhe2Yv3SKaeNlcwVeR7ok1tAruaTrg
 IMBd documentatoin: 
 
 CSS Framework: Bulma
