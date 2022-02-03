@@ -11,7 +11,7 @@ function Search(MovieName) {
 }
 
 
-document.getElementById("SearchForm").addEventListener("submit", Search);
+document.getElementById("SearchForm").addEventListener("submit", function(){Search(document.getElementById("search").value)});
 
 /*fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=Breaking%20Bad", {
 	"method": "GET",
