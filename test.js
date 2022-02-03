@@ -1,3 +1,11 @@
+var searchData
+
+function SearchStreamingAvailibility(ID) {
+    
+}
+
+
+
 fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=Breaking%20Bad", {
 	"method": "GET",
 	"headers": {
@@ -6,7 +14,9 @@ fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value=B
 	}
 })
 .then(response => {
+    searchData=response
 	console.log(response);
+
 })
 .catch(err => {
 	console.error(err);
