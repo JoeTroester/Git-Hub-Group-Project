@@ -8,29 +8,98 @@
     <title>Document</title>
 </head>
 <header>
-    <h1>Where to Watch</h1> 
-    <nav>
-        <ul>
-            <li>
-                <a href="#Movie-Search">Movie Search</a>
-            </li>
-            <li>
-                <a href="Movie-List">Movie List</a>
-            </li>
-        </ul>
-    </nav>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://joetroester.github.io/Movie_Watchlist/">
+            Place Holder Logo
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item">
+              Home
+            </a>
+      
+            <a class="navbar-item">
+              Documentation
+            </a>
+      
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                More
+              </a>
+      
+              <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  About
+                </a>
+                <a class="navbar-item">
+                  Jobs
+                </a>
+                <a class="navbar-item">
+                  Contact
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
+            </div>
+          </div>
+      
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-primary">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light">
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
 </header>
+
 <body>
-    <div>  
-        <h2>Movie Search</h2>  
+    <section class="hero is-medium is-link">
+        <div class="hero-body">
+          <p class="title">
+            Where To Watch
+          </p>
+          <p class="subtitle">
+            Search for movies and television shows to see what platforms they are currently streaming on.
+            Find information about movie year, actors, runtime, and rating.
+          </p>
+        </div>
+      </section>
+
+    <div class="columns mt-auto"> 
+        <div class="column">
+        <h2 class="is-size-5">Movie Search</h2>
         <form id="SearchForm">
         <input id="search" type="text">
         <input id="submit" type="submit">
         </form>
+        </div>
+        <div class="column mt-01">
+        <h2 class="is-size-5">Movie List</h2>
+        </div>
     </div>
-    <div>
-        <h2>Movie List</h2>
+
+    <div class="column" id="movie-title">
+        <h3>Movie Title</h3>
     </div>
+
 </body>
 </html>
 
