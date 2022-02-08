@@ -35,7 +35,7 @@ function IsDuplicateSearch(MovieName){ //this function scans the OldSearches loc
 	if (PreviouslySearched) {
 		for (var x=0;x<PreviouslySearched.length;x++){
 			if (PreviouslySearched[x]==MovieName){
-				return PreviouslySearched[x]
+				return true
 			}
 		}
 	}
@@ -49,13 +49,21 @@ function SearchStreamingAvailibility(ID) {
 function Search(MovieName) {
     event.preventDefault();//prevents the screen from refreshing whenever a form is submitted
     console.log("MOVIE BEING SEARCHED: "+MovieName)
-	var IsChecked=IsDuplicateSearch(MovieName)
-	if (IsChecked!=false) {//calls the Dup search function above to make sure the client isnt re-searching a movie
+	if (IsDuplicateSearch(MovieName)) {//calls the Dup search function above to make sure the client isnt re-searching a movie
 		console.log("Movie was already searched")
-		console.log(IsChecked)
-		/*
-		add logic to scroll the user down to the section where the movie is listed
-		*/
+		var SearchResult = JSON.parse(localStorage.getItem("SearchResult"))
+		console.log(SearchResult)
+		var ResearchResult=null
+		for (var x=0;x<SearchResult.length;x++){
+			if (SearchResult[x].SearchKeyWord==MovieName){
+				console.log("Table found with searched data:")
+				console.log(SearchResult[x])
+				ResearchResult=SearchResult[x]
+			}
+		}
+		if (ResearchResult){
+			//ELEMENTWITHSEARCHID.scrollIntoView(true,{behavior:"smooth"})
+		}
 	}else{
 		console.log("Movie wasn't searched before")
 		var SearchedMovies = JSON.parse(localStorage.getItem("OldSearches"))//grabs old searches array from local storage
@@ -71,9 +79,6 @@ function Search(MovieName) {
 		console.log("SUCCESSFULLY UPDATED OldSearches:")
 		console.log(JSON.parse(localStorage.getItem("OldSearches")))
 		console.log(MovieName.replace(" ","%20"))
-
-		//EVERYTHING BELOW IS COMMENTED OUT FOR A REASON. DO NOT WASTE THE QUERRIES! DO NOT UNCOMMENT IT UNLESS YOU KNOW EXACTLY WHAT TO DO
-		//IN AS FEW QUERRIES AS POSSIBLE!!!
 		fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value="+MovieName.replace(" ","%20"), {
 			"method": "GET",
 			"headers": {
@@ -112,21 +117,38 @@ function Search(MovieName) {
 								}
 							}
 						}
-						console.log("Streaming Table: ")
-						console.log(StreamingTable)
-						/*
-						TODO:
-						-Then create function that returns the streaming availibility and inserts it into table
-						-Then create function that returns interesting info from IMDb API
-						*/
-						
-					var OldTable= JSON.parse(localStorage.getItem("SearchResult"))
-					if (OldTable){
-						OldTable.push(PreTable)
-					}else{
-						OldTable=[PreTable]
-					}
-					localStorage.setItem("SearchResult",JSON.stringify(OldTable))
+						fetch("https://imdb-api.com/en/API/Title/k_a8u8vjlq/"+PreTable.imdb_id)
+						.then(response => {
+							Promise.resolve(response.json().then(function (IMDBResponse) {
+								console.log(IMDBResponse)
+								var IMDBTable = {
+									"FullTitle": IMDBResponse.fullTitle,
+									"Image" : IMDBResponse.image,
+									"Plot" : IMDBResponse.plot,
+									"RuntimeString" : IMDBResponse.runtimeStr,
+									"Directors" : IMDBResponse.directors,
+									"Awards" : IMDBResponse.awards,
+									"IMDb_Rating" : IMDBResponse.imDb_rating,
+									"Metacritic_Rating" : IMDBResponse.metacriticRating,
+									"Genres" : IMDBResponse.genres
+								}
+								console.log("Streaming Table: ")
+								console.log(StreamingTable)
+								PreTable.StreamingServices=StreamingTable
+								PreTable.IMDBTable=IMDBTable
+								console.log(PreTable)
+								var OldTable= JSON.parse(localStorage.getItem("SearchResult"))
+								if (OldTable){
+									OldTable.push(PreTable)
+								}else{
+									OldTable=[PreTable]
+								}
+								localStorage.setItem("SearchResult",JSON.stringify(OldTable))
+							}))
+						})
+						.catch(err=>{
+							console.error(err)
+						})
 					});
 				})
 				.catch(err => {
