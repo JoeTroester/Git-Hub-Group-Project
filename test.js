@@ -1,13 +1,41 @@
-//localStorage.removeItem("OldSearches")
-//localStorage.removeItem("SearchResult") //these 2 statements are for resetting your localstorage. good for debugging
-
+localStorage.removeItem("OldSearches")
+localStorage.removeItem("SearchResult") //these 2 statements are for resetting your localstorage. good for debugging
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var OSType
+var StreamingTitlesWithIDs=[]
+StreamingTitlesWithIDs[307]="Vudu"
+StreamingTitlesWithIDs[203]= "Netflix"
+StreamingTitlesWithIDs[442]= "Directtv"
+StreamingTitlesWithIDs[157]= "Hulu"
+StreamingTitlesWithIDs[26]= "Amazon Prime"
+StreamingTitlesWithIDs[387]= "HBO Max"
+StreamingTitlesWithIDs[372]= "Disney+"
+StreamingTitlesWithIDs[371]= "AppleTv+"
+StreamingTitlesWithIDs[444]= "Paramount+"
+StreamingTitlesWithIDs[248]= "Showtime"
+StreamingTitlesWithIDs[388]= "Peacock"
+StreamingTitlesWithIDs[365]= "IMDb TV"
+StreamingTitlesWithIDs[232]= "STARZ"
+StreamingTitlesWithIDs[296]= "Tubi TV"
+StreamingTitlesWithIDs[368]= "Youtube Premium" 
+console.log(StreamingTitlesWithIDs)
+if (/windows phone/i.test(userAgent)) {
+    OSType= "Windows Phone";
+}else if (/android/i.test(userAgent)) {
+    OSType= "Android";
+}else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    OSType= "iOS";
+}else{
+	OSType= "unknown";
+}
+console.log("Operating System type is: "+OSType)
 
 function IsDuplicateSearch(MovieName){ //this function scans the OldSearches local storage and checks for any duplicates. This is to prevent someone from making multiple querries over the same search
 	var PreviouslySearched= JSON.parse(localStorage.getItem("OldSearches"))
 	if (PreviouslySearched) {
 		for (var x=0;x<PreviouslySearched.length;x++){
 			if (PreviouslySearched[x]==MovieName){
-				return true
+				return PreviouslySearched[x]
 			}
 		}
 	}
@@ -21,8 +49,10 @@ function SearchStreamingAvailibility(ID) {
 function Search(MovieName) {
     event.preventDefault();//prevents the screen from refreshing whenever a form is submitted
     console.log("MOVIE BEING SEARCHED: "+MovieName)
-	if (IsDuplicateSearch(MovieName)) {//calls the Dup search function above to make sure the client isnt re-searching a movie
+	var IsChecked=IsDuplicateSearch(MovieName)
+	if (IsChecked!=false) {//calls the Dup search function above to make sure the client isnt re-searching a movie
 		console.log("Movie was already searched")
+		console.log(IsChecked)
 		/*
 		add logic to scroll the user down to the section where the movie is listed
 		*/
@@ -44,7 +74,7 @@ function Search(MovieName) {
 
 		//EVERYTHING BELOW IS COMMENTED OUT FOR A REASON. DO NOT WASTE THE QUERRIES! DO NOT UNCOMMENT IT UNLESS YOU KNOW EXACTLY WHAT TO DO
 		//IN AS FEW QUERRIES AS POSSIBLE!!!
-		/*fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value="+MovieName.replace(" ","%20"), {
+		fetch("https://watchmode.p.rapidapi.com/search/?search_field=name&search_value="+MovieName.replace(" ","%20"), {
 			"method": "GET",
 			"headers": {
 				"x-rapidapi-host": "watchmode.p.rapidapi.com",
@@ -54,21 +84,59 @@ function Search(MovieName) {
 		.then(response => {		
 			Promise.resolve(response.json()).then(function(SearchResult){
 				console.log(SearchResult);
-				localStorage.setItem("SearchResult",JSON.stringify(SearchResult))
-				/*
-				TODO:
-				-Add logic to create a table that is the important data we want to save
-				---insert Movie/Show title
-				---Insert Media type (show/movie)
-				---year it was released
-				---Id for watchmode
-				-Then create function that returns the streaming availibility and inserts it into table
-				-Then create function that returns interesting info from IMDb API
+				//TODO: MAKE LOGIC TO CATCH EMPTY SEARCH RESULTS
+				var PreTable = {
+					"SearchKeyWord" : MovieName,
+					"imdb_id" : SearchResult.title_results[0].imdb_id,
+					"id" : SearchResult.title_results[0].id,
+					"ShowOrMovie" : SearchResult.title_results[0].type,
+					"ReleaseData" : SearchResult.title_results[0].year
+				}
+				fetch("https://watchmode.p.rapidapi.com/title/"+SearchResult.title_results[0].id +"/sources/", {
+					"method": "GET",
+					"headers": {
+					"regions": "US",
+					"x-rapidapi-host": "watchmode.p.rapidapi.com",
+					"x-rapidapi-key": "d5a0f766b9msh396de5a1bc2ae8ep198417jsna45573810b34"
+				}
+				})
+				.then(response => {
+					Promise.resolve(response.json()).then(function(StreamingResult){
+						console.log(StreamingResult)
+						var StreamingTable=[]
+						for (var x = 0;x<StreamingResult.length;x++){
+							if (StreamingResult[x].region =="US"){
+								if (StreamingTitlesWithIDs[StreamingResult[x].source_id]!=null){
+									StreamingResult[x].source_id=StreamingTitlesWithIDs[StreamingResult[x].source_id]
+									StreamingTable.push(StreamingResult[x])
+								}
+							}
+						}
+						console.log("Streaming Table: ")
+						console.log(StreamingTable)
+						/*
+						TODO:
+						-Then create function that returns the streaming availibility and inserts it into table
+						-Then create function that returns interesting info from IMDb API
+						*/
+						
+					var OldTable= JSON.parse(localStorage.getItem("SearchResult"))
+					if (OldTable){
+						OldTable.push(PreTable)
+					}else{
+						OldTable=[PreTable]
+					}
+					localStorage.setItem("SearchResult",JSON.stringify(OldTable))
+					});
+				})
+				.catch(err => {
+					console.error(err);
+				});
 			});
 		})
 		.catch(err => {
 			console.error(err);
-		});*/
+		});
 	}
 }
 
