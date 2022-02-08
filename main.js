@@ -2,6 +2,9 @@ localStorage.removeItem("OldSearches")
 localStorage.removeItem("SearchResult") //these 2 statements are for resetting your localstorage. good for debugging
 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 var OSType
+/*
+Below is a table for cross-referencing given streaming ids with their proper names. 
+*/
 var StreamingTitlesWithIDs=[]
 StreamingTitlesWithIDs[307]="Vudu"
 StreamingTitlesWithIDs[203]= "Netflix"
@@ -18,7 +21,7 @@ StreamingTitlesWithIDs[365]= "IMDb TV"
 StreamingTitlesWithIDs[232]= "STARZ"
 StreamingTitlesWithIDs[296]= "Tubi TV"
 StreamingTitlesWithIDs[368]= "Youtube Premium" 
-console.log(StreamingTitlesWithIDs)
+//Below is a simple scan of the user's operating system. We will use the correct hyperlink depending on the OS they're using. IE, opening App Store
 if (/windows phone/i.test(userAgent)) {
     OSType= "Windows Phone";
 }else if (/android/i.test(userAgent)) {
@@ -29,7 +32,6 @@ if (/windows phone/i.test(userAgent)) {
 	OSType= "unknown";
 }
 console.log("Operating System type is: "+OSType)
-
 function IsDuplicateSearch(MovieName){ //this function scans the OldSearches local storage and checks for any duplicates. This is to prevent someone from making multiple querries over the same search
 	var PreviouslySearched= JSON.parse(localStorage.getItem("OldSearches"))
 	if (PreviouslySearched) {
@@ -40,11 +42,6 @@ function IsDuplicateSearch(MovieName){ //this function scans the OldSearches loc
 		}
 	}
 	return false
-}
-function SearchStreamingAvailibility(ID) {
-    /*
-	Add logic for checking streaming availity with a given id from the Search function
-	*/
 }
 function Search(MovieName) {
     event.preventDefault();//prevents the screen from refreshing whenever a form is submitted
