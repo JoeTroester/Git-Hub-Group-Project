@@ -1,10 +1,8 @@
-localStorage.removeItem("OldSearches")
-localStorage.removeItem("SearchResult") //these 2 statements are for resetting your localstorage. good for debugging
+//localStorage.removeItem("OldSearches")
+//localStorage.removeItem("SearchResult") //these 2 statements are for resetting your localstorage. good for debugging
 var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 var OSType
-/*
-Below is a table for cross-referencing given streaming ids with their proper names. 
-*/
+//Below is a table for cross-referencing given streaming ids with their proper names. 
 var StreamingTitlesWithIDs=[]
 StreamingTitlesWithIDs[307]="Vudu"
 StreamingTitlesWithIDs[203]= "Netflix"
