@@ -57,12 +57,14 @@ function PopulateData(NewData){
 			var StreamingServiceRow = document.createElement("div")
 			var StreamingServiceName = document.createElement("div")
 			var BuyOrSub = document.createElement("div")
+			var Quality = document.createElement("div")
 			var Price = document.createElement("div")
 			var Checkmark = document.createElement("div")
 			var Link_Out=document.createElement("a")
 			StreamingServiceRow.className="columns is-centered is-4 is-variable"
-			StreamingServiceName.className="column is-7 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			StreamingServiceName.className="column is-6 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 			BuyOrSub.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			Quality.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 			Price.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 			Checkmark.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 			Link_Out.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
@@ -72,6 +74,11 @@ function PopulateData(NewData){
 				Price.innerHTML=NewData.StreamingServices[x].price
 			}else{
 				Price.innerHTML="N/A"
+			}
+			if (SearchResults[x].StreamingServices[y].format){
+				Quality = SearchResults[x].StreamingServices[y].format
+			}else{
+				Quality="N/A"
 			}
 			Checkmark.innerHTML="✔️"
 			Link_Out.innerHTML="🔗"
@@ -113,17 +120,24 @@ function PopulateData(NewData){
 					var StreamingServiceRow = document.createElement("div")
 					var StreamingServiceName = document.createElement("div")
 					var BuyOrSub = document.createElement("div")
+					var Quality = document.createElement("div")
 					var Price = document.createElement("div")
 					var Checkmark = document.createElement("div")
 					var Link_Out=document.createElement("a")
 					StreamingServiceRow.className="columns is-centered is-4 is-variable"
-					StreamingServiceName.className="column is-7 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					StreamingServiceName.className="column is-6 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 					BuyOrSub.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					Quality.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 					Price.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 					Checkmark.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 					Link_Out.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
 					StreamingServiceName.innerHTML=SearchResults[x].StreamingServices[y].source_id
 					BuyOrSub.innerHTML=SearchResults[x].StreamingServices[y].type
+					if (SearchResults[x].StreamingServices[y].format){
+						Quality.innerHTML = SearchResults[x].StreamingServices[y].format
+					}else{
+						Quality.innerHTML="N/A"
+					}
 					if (SearchResults[x].StreamingServices[y].price){
 						Price.innerHTML=SearchResults[x].StreamingServices[y].price
 					}else{
@@ -141,6 +155,7 @@ function PopulateData(NewData){
 					body.appendChild(StreamingServiceRow)
 					StreamingServiceRow.appendChild(StreamingServiceName)
 					StreamingServiceRow.appendChild(BuyOrSub)
+					StreamingServiceRow.appendChild(Quality)
 					StreamingServiceRow.appendChild(Price)
 					StreamingServiceRow.appendChild(Checkmark)
 					StreamingServiceRow.appendChild(Link_Out)
