@@ -6,7 +6,7 @@ var OSType
 var StreamingTitlesWithIDs=[]
 StreamingTitlesWithIDs[307]="Vudu"
 StreamingTitlesWithIDs[203]= "Netflix"
-StreamingTitlesWithIDs[442]= "Directtv"
+StreamingTitlesWithIDs[442]= "DirectTv"
 StreamingTitlesWithIDs[157]= "Hulu"
 StreamingTitlesWithIDs[26]= "Amazon Prime"
 StreamingTitlesWithIDs[387]= "HBO Max"
@@ -41,6 +41,117 @@ function IsDuplicateSearch(MovieName){ //this function scans the OldSearches loc
 	}
 	return false
 }
+function PopulateData(NewData){
+	var body = document.getElementById("body")
+	if (NewData){
+		console.log(NewData)
+		var TitleBannerRow =document.createElement("div")
+		var TitleBannerColumn = document.createElement("div")
+		TitleBannerRow.className="columns is-centered PaddingTop10px"
+		TitleBannerColumn.className="column is-11 has-text-white has-background-primary is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+		TitleBannerColumn.innerHTML="''"+NewData.SearchKeyWord+"''"
+		TitleBannerColumn.id=NewData.SearchKeyWord
+		TitleBannerRow.appendChild(TitleBannerColumn)
+		body.appendChild(TitleBannerRow)
+		for (var x=0;x<NewData.StreamingServices.length;x++){
+			var StreamingServiceRow = document.createElement("div")
+			var StreamingServiceName = document.createElement("div")
+			var BuyOrSub = document.createElement("div")
+			var Price = document.createElement("div")
+			var Checkmark = document.createElement("div")
+			var Link_Out=document.createElement("a")
+			StreamingServiceRow.className="columns is-centered is-4 is-variable"
+			StreamingServiceName.className="column is-7 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			BuyOrSub.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			Price.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			Checkmark.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			Link_Out.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+			StreamingServiceName.innerHTML=NewData.StreamingServices[x].source_id
+			BuyOrSub.innerHTML=NewData.StreamingServices[x].type
+			if (NewData.StreamingServices[x].price){
+				Price.innerHTML=NewData.StreamingServices[x].price
+			}else{
+				Price.innerHTML="N/A"
+			}
+			Checkmark.innerHTML="✔️"
+			Link_Out.innerHTML="🔗"
+			if (OSType=="Android" && NewData.StreamingServices[x].android_url){
+				Link_Out.href=NewData.StreamingServices[x].android_url
+			}else if(OSType=="iOS" && NewData.StreamingServices[x].ios_url){
+				Link_Out.href=NewData.StreamingServices[x].ios_url
+			}else{
+				Link_Out.href=NewData.StreamingServices[x].web_url
+			}
+			body.appendChild(StreamingServiceRow)
+			StreamingServiceRow.appendChild(StreamingServiceName)
+			StreamingServiceRow.appendChild(BuyOrSub)
+			StreamingServiceRow.appendChild(Price)
+			StreamingServiceRow.appendChild(Checkmark)
+			StreamingServiceRow.appendChild(Link_Out)
+		}
+	}else{
+		var SearchResults = JSON.parse(localStorage.getItem("SearchResult"))
+		console.log(SearchResults)
+		/*
+		Step 1: make title banner for the search result
+		Step 2: assign title banner's id the search result
+		Step 3: create boxes equal to the number of streaming results
+		Step 4: give every link-out box the link according to the user's operating system
+		*/
+		if (SearchResults!=null){
+			for (var x=0;x<SearchResults.length;x++){
+				var TitleBannerRow =document.createElement("div")
+				var TitleBannerColumn = document.createElement("div")
+				TitleBannerRow.className="columns is-centered PaddingTop10px"
+				TitleBannerColumn.className="column is-11 has-text-white has-background-primary is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+				TitleBannerColumn.innerHTML="''"+SearchResults[x].SearchKeyWord+"''"
+				TitleBannerColumn.id=SearchResults[x].SearchKeyWord
+				TitleBannerRow.appendChild(TitleBannerColumn)
+				body.appendChild(TitleBannerRow)
+
+				for (var y=0;y<SearchResults[x].StreamingServices.length;y++){
+					var StreamingServiceRow = document.createElement("div")
+					var StreamingServiceName = document.createElement("div")
+					var BuyOrSub = document.createElement("div")
+					var Price = document.createElement("div")
+					var Checkmark = document.createElement("div")
+					var Link_Out=document.createElement("a")
+					StreamingServiceRow.className="columns is-centered is-4 is-variable"
+					StreamingServiceName.className="column is-7 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					BuyOrSub.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					Price.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					Checkmark.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					Link_Out.className="column is-1 has-text-white has-background-dark is-size-4 has-text-centered has-text-weight-bold QuickStyle"
+					StreamingServiceName.innerHTML=SearchResults[x].StreamingServices[y].source_id
+					BuyOrSub.innerHTML=SearchResults[x].StreamingServices[y].type
+					if (SearchResults[x].StreamingServices[y].price){
+						Price.innerHTML=SearchResults[x].StreamingServices[y].price
+					}else{
+						Price.innerHTML="N/A"
+					}
+					Checkmark.innerHTML="✔️"
+					Link_Out.innerHTML="🔗"
+					if (OSType=="Android" && SearchResults[x].StreamingServices[y].android_url){
+						Link_Out.href=SearchResults[x].StreamingServices[y].android_url
+					}else if(OSType=="iOS" && SearchResults[x].StreamingServices[y].ios_url){
+						Link_Out.href=SearchResults[x].StreamingServices[y].ios_url
+					}else{
+						Link_Out.href=SearchResults[x].StreamingServices[y].web_url
+					}
+					body.appendChild(StreamingServiceRow)
+					StreamingServiceRow.appendChild(StreamingServiceName)
+					StreamingServiceRow.appendChild(BuyOrSub)
+					StreamingServiceRow.appendChild(Price)
+					StreamingServiceRow.appendChild(Checkmark)
+					StreamingServiceRow.appendChild(Link_Out)
+				}
+			}
+		}
+	}
+}
+
+
+
 function Search(MovieName) {
     event.preventDefault();//prevents the screen from refreshing whenever a form is submitted
     console.log("MOVIE BEING SEARCHED: "+MovieName)
@@ -57,7 +168,7 @@ function Search(MovieName) {
 			}
 		}
 		if (ResearchResult){
-			//ELEMENTWITHSEARCHID.scrollIntoView(true,{behavior:"smooth"})
+			document.getElementById(MovieName).scrollIntoView(true,{behavior:"smooth"})
 		}
 	}else{
 		console.log("Movie wasn't searched before")
@@ -139,6 +250,11 @@ function Search(MovieName) {
 									OldTable=[PreTable]
 								}
 								localStorage.setItem("SearchResult",JSON.stringify(OldTable))
+								//POPULATE WITH MORE DIVS
+								PopulateData(PreTable)
+
+
+
 							}))
 						})
 						.catch(err=>{
@@ -156,7 +272,7 @@ function Search(MovieName) {
 		});
 	}
 }
-
+PopulateData()
 
 document.getElementById("SearchForm").addEventListener("submit", function(){Search(document.getElementById("search").value.toString().toLowerCase())});
 //Grabs the form, and when its submitted, it converts the search box to lowercase (for consitency purposes) and calls the search
