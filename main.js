@@ -75,8 +75,8 @@ function PopulateData(NewData){
 			}else{
 				Price.innerHTML="N/A"
 			}
-			if (SearchResults[x].StreamingServices[y].format){
-				Quality = SearchResults[x].StreamingServices[y].format
+			if (NewData.StreamingServices[x].format){
+				Quality = NewData.StreamingServices[x].format
 			}else{
 				Quality="N/A"
 			}
