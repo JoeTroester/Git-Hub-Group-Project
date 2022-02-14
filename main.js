@@ -41,6 +41,32 @@ function IsDuplicateSearch(MovieName){ //this function scans the OldSearches loc
 	}
 	return false
 }
+function PopulateDatailWindow(TableOfInfo){
+	console.log("Populate Detail Window was called with this info:")
+	console.log(TableOfInfo)
+	var ShowOrMovie = document.getElementById("Show-Movie")
+	var Title = document.getElementById("Title")
+	var ReleaseDate = document.getElementById("Release-Date")
+	var Plot = document.getElementById("Plot")
+	var Genre = document.getElementById("Genre")
+	var Directors = document.getElementById("Directors")
+	var Awards = document.getElementById("Awards")
+	var Image = document.getElementById("image")
+	if (TableOfInfo.ShowOrMovie =="tv_series"){
+		ShowOrMovie.innerHTML="Show or Movie: Show"
+	}else{
+		ShowOrMovie.innerHTML="Show or Movie: Movie"
+	}
+	Title.innerHTML="Movie Title: "+TableOfInfo.IMDBTable.FullTitle
+	ReleaseDate.innerHTML="Release Date: "+TableOfInfo.ReleaseDate
+	Plot.innerHTML="Plot: "+TableOfInfo.IMDBTable.Plot
+	Genre.innerHTML="Genre: "+TableOfInfo.IMDBTable.Genres
+	Directors.innerHTML="Directors: "+TableOfInfo.IMDBTable.Directors
+	Awards.innerHTML="Awards: "+TableOfInfo.IMDBTable.Awards
+	Image.src=TableOfInfo.IMDBTable.Image
+}
+
+
 function PopulateData(NewData){
 	var body = document.getElementById("body")
 	if (NewData){
@@ -99,12 +125,6 @@ function PopulateData(NewData){
 	}else{
 		var SearchResults = JSON.parse(localStorage.getItem("SearchResult"))
 		console.log(SearchResults)
-		/*
-		Step 1: make title banner for the search result
-		Step 2: assign title banner's id the search result
-		Step 3: create boxes equal to the number of streaming results
-		Step 4: give every link-out box the link according to the user's operating system
-		*/
 		if (SearchResults!=null){
 			for (var x=0;x<SearchResults.length;x++){
 				var TitleBannerRow =document.createElement("div")
@@ -185,6 +205,7 @@ function Search(MovieName) {
 		if (ResearchResult){
 			document.getElementById(MovieName).scrollIntoView(true,{behavior:"smooth"})
 		}
+		PopulateDatailWindow(ResearchResult)
 	}else{
 		console.log("Movie wasn't searched before")
 		var SearchedMovies = JSON.parse(localStorage.getItem("OldSearches"))//grabs old searches array from local storage
@@ -216,7 +237,7 @@ function Search(MovieName) {
 					"imdb_id" : SearchResult.title_results[0].imdb_id,
 					"id" : SearchResult.title_results[0].id,
 					"ShowOrMovie" : SearchResult.title_results[0].type,
-					"ReleaseData" : SearchResult.title_results[0].year
+					"ReleaseDate" : SearchResult.title_results[0].year
 				}
 				fetch("https://watchmode.p.rapidapi.com/title/"+SearchResult.title_results[0].id +"/sources/", {
 					"method": "GET",
@@ -267,7 +288,7 @@ function Search(MovieName) {
 								localStorage.setItem("SearchResult",JSON.stringify(OldTable))
 								//POPULATE WITH MORE DIVS
 								PopulateData(PreTable)
-
+								PopulateDatailWindow(PreTable)
 
 
 							}))

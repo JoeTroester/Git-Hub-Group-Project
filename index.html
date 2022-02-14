@@ -35,51 +35,36 @@
 </header>
 <!--hero body-->
 <body id="body">
-    <section class="hero is-medium is-link">
-        <div class="hero-body">
-          <p class="title">
-            Where To Watch
-          </p>
-          <p class="subtitle">
-            Search for movies and television shows to see what platforms they are currently streaming on.
-           
-          </p>
+    <section class="is-medium is-link">
+        <div class="Hero-Style">
+         
           <!--search form-->
-      <div class= "columns">
-            <div class= "column">
-          <div class="is-size-4">Movie Search</div>
-            <form id="SearchForm">
-            <input id="search" type="text" placeholder="search movie/show" class="column is-one-quarter">
-            <input class="button is-focus is-responsive" id="submit" type="submit">
-            </form>
+      <div class= "columns is-full-height">
+          <div class= "column is-4">
+            <p class="title has-text-white">Where To Watch</p>
+            <p class="subtitle has-text-white">Search for movies and television shows to see what platforms they are currently streaming on.</p>
+            <div class="is-size-4 has-text-white">Movie Search</div>
+              <form id="SearchForm">
+              <input id="search" type="text" placeholder="search movie/show" class="column is-half">
+              <input class="button is-focus is-responsive" id="submit" type="submit">
+              </form>
             </div>
-        
-        <div class="column is-gapless is-multiline is-mobile">
-          <div class="column is-one-quarter">
-            Title
+          <div class="column is-8">
+            <div class="columns" style="height: 500px;">
+              <div class="column is-half">
+                <div class="has-text-white" style="padding: 2% 0px;" id="Title">Movie Title</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Release-Date">Release Date</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Show-Movie">Show or Movie</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Plot">Plot</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Genre">Genre</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Directors">Directors</div>
+                <div class="has-text-white" style="padding: 2% 0px;" id="Awards" >Awards</div>
+              </div>
+              <div class="column is-half">
+                <img id="image" class="image" style="width: auto; height: 100%;" src=""></img>
+              </div>
+            </div>
           </div>
-          <div class="column is-one-quarter">
-            Movie Poster
-          </div>
-          <div class="column is-one-quarter">
-             Plot
-          </div>
-          <div class="column is-one-quarter">
-            Director
-          </div>
-          <div class="column is-one-quarter">
-            Runtime 
-          </div>
-          <div class="column is-one-quarter">
-            Awards 
-          </div>
-            <div class="column is-half">
-              Rating  
-          </div>
-          <div class="column">
-            Genre
-          </div>
-        </div>
       </div>   
         
       </section>

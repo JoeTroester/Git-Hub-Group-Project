@@ -5,3 +5,9 @@
 .PaddingTop10px{
     padding-top: 10px;
 }
+.Hero-Style{
+    
+    padding: 64px;
+    height: 601px;
+    background-color: #485fc7;
+}
